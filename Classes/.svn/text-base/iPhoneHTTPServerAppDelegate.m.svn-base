@@ -1,0 +1,54 @@
+//
+//  iPhoneHTTPServerAppDelegate.m
+//  iPhoneHTTPServer
+//
+//  Created by Nonnus on 11/22/08.
+//  Copyright __MyCompanyName__ 2008. All rights reserved.
+//
+
+#import "iPhoneHTTPServerAppDelegate.h"
+#import "HTTPServer.h"
+#import "FileBrowser.h"
+#import "localhostAdresses.h"
+
+
+@implementation iPhoneHTTPServerAppDelegate
+
+@synthesize window;
+
+
+
+- (void)applicationDidFinishLaunching:(UIApplication *)application 
+{
+   [window makeKeyAndVisible];
+	
+	NSString *root = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES) objectAtIndex:0];
+	httpServer = [HTTPServer new];
+	[httpServer setType:@"_http._tcp."];
+	[httpServer setName:@"iTM Matrix"];
+	[httpServer setDocumentRoot:[NSURL fileURLWithPath:root]];
+	
+	UINavigationController *browser = [[UINavigationController alloc] initWithRootViewController:[[FileBrowser alloc] initWithRoot:root title:@"iTM Matrix" server:httpServer]];
+	[window addSubview:browser.view];
+	
+	
+	NSError *error;
+	if(![httpServer start:&error])
+	{
+		NSLog(@"Error starting HTTP Server: %@", error);
+	}
+	
+	[localhostAdresses list];
+	//[localhostAdresses performSelectorInBackground:@selector(list) withObject:nil];
+}
+
+
+- (void)dealloc 
+{
+	[httpServer release];
+    [window release];
+    [super dealloc];
+}
+
+
+@end

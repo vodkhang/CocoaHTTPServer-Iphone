@@ -1,0 +1,21 @@
+//
+//  iPhoneHTTPServerAppDelegate.h
+//  iPhoneHTTPServer
+//
+//  Created by Nonnus on 11/22/08.
+//  Copyright __MyCompanyName__ 2008. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+@class   HTTPServer;
+
+@interface iPhoneHTTPServerAppDelegate : NSObject <UIApplicationDelegate> 
+{
+    UIWindow *window;
+	HTTPServer *httpServer;
+}
+
+@property (nonatomic, retain) IBOutlet UIWindow *window;
+
+@end
+
